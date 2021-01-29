@@ -1,32 +1,27 @@
-package com.example.umorili2.ui.fragments;
+package com.example.umorili2.not_use;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.umorili2.R;
-import com.example.umorili2.api.App;
+import com.example.umorili2.remote.App;
 import com.example.umorili2.model.PostModel;
 import com.example.umorili2.ui.recycler_view_provision.PostAdapter;
 import com.example.umorili2.utils.Constants;
+import com.example.umorili2.viewmodel.RecyclerFragmentViewModel;
 
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,9 +78,6 @@ public class FragmentClassic  extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
-
     }
 
     private void initRecyclerView() {

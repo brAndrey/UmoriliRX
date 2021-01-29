@@ -1,4 +1,4 @@
-package com.example.umorili2.api;
+package com.example.umorili2.remote;
 
 import android.app.Application;
 import android.util.Log;

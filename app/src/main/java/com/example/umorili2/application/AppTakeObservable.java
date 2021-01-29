@@ -1,6 +1,6 @@
-package com.example.umorili2.repozitories;
+package com.example.umorili2.application;
 
-import com.example.umorili2.api.App;
+import com.example.umorili2.remote.App;
 import com.example.umorili2.model.PostModel;
 import com.example.umorili2.utils.Constants;
 
@@ -29,13 +29,10 @@ public class AppTakeObservable  {
                     }
                 });
 
-
-
     }
 
     public Observable<List<PostModel>> getListPostsObservable() {
         return App.getRequestApi()
-
                 .getPostModel(Constants.RESOURSENAME,Constants.COINT)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

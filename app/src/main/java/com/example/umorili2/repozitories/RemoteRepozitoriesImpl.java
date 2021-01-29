@@ -6,26 +6,24 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.umorili2.api.App;
+import com.example.umorili2.remote.App;
+import com.example.umorili2.application.AppTakeObservable;
 import com.example.umorili2.model.PostModel;
+import com.example.umorili2.model.RecordingModel;
 import com.example.umorili2.utils.Constants;
+import com.example.umorili2.utils.Functionss;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
+import io.reactivex.functions.Function;
 
-public class DataRepozitories {
+public class RemoteRepozitoriesImpl implements RemoteRepozitories{
 
 
     private final MutableLiveData<String> selected = new MutableLiveData<String>();
@@ -35,15 +33,15 @@ public class DataRepozitories {
 private AppTakeObservable appTakeObservable;
 
     // инициируем синглтон
-    private static DataRepozitories INSTANCE;
+    private static RemoteRepozitoriesImpl INSTANCE;
 
-    private DataRepozitories() {
+    private RemoteRepozitoriesImpl() {
     }
 
-    public static DataRepozitories getInstance() {
+    public static RemoteRepozitoriesImpl getInstance() {
         if (INSTANCE == null) {
-            synchronized (DataRepozitories.class) {
-                INSTANCE = new DataRepozitories();
+            synchronized (RemoteRepozitoriesImpl.class) {
+                INSTANCE = new RemoteRepozitoriesImpl();
             }
         }
         return INSTANCE;
@@ -71,33 +69,6 @@ private AppTakeObservable appTakeObservable;
                 .getPostModel(Constants.RESOURSENAME,Constants.COINT)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-       
-
-
-//   appTakeObservable.getListPostsObservable()
-//                 .subscribeOn(Schedulers.io())
-//                 .observeOn(AndroidSchedulers.mainThread())
-//              .flatMap(new Function<List<PostModel>, ObservableSource<List<PostModel>>>() {
-//                  @Override
-//                  public ObservableSource<List<PostModel>> apply(List<PostModel> postModelList) throws Exception {
-//                      return Observable.fromIterable(postModelList)
-//                              .subscribeOn(Schedulers.io());
-//                  }
-//              });
-//
-//              .flatMap(new Function<List<PostModel>, ObservableSource<PostModel>>() {
-//                  @Override
-//                  public ObservableSource<PostModel> apply(List<PostModel> postModels) throws Exception {
-//                      //adapter.setPosts(postModels); // fill UI - наполняем UI
-//                      return Observable.fromIterable(postModels)
-//                              .subscribeOn(Schedulers.io());
-//                  }
-//              });
-
-                 //.subscribe(postModelList -> Observable.just(postModelList))
-
-
-
 
     }
 
@@ -108,5 +79,22 @@ private AppTakeObservable appTakeObservable;
                         .getPostModelLive(Constants.RESOURSENAME,Constants.COINT ) // from RequestApi.java
                         .subscribeOn(Schedulers.io())); // убираем в поток ввода вывода
     }
+
+
+    public Observable<List<RecordingModel>> getListRecordingModel() {
+        return App.getRequestApi()
+                .getPostModel(Constants.RESOURSENAME, Constants.COINT)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<List<PostModel>, List<RecordingModel>>() {
+                         @Override
+                         public List<RecordingModel> apply(@NotNull List<PostModel> postModels) throws Exception {
+                             List<RecordingModel> recordingModel = Functionss.ConvertPostToRecordingList(postModels);
+                             return recordingModel;
+                         }
+                     }
+                );
+    }
+
 
 }

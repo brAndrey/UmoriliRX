@@ -1,6 +1,8 @@
-package com.example.umorili2.api;
+package com.example.umorili2.remote;
 
 
+
+import androidx.lifecycle.LiveData;
 
 import com.example.umorili2.model.PostModel;
 
@@ -23,5 +25,7 @@ public interface UmoriliApi {
     @GET("/api/get")
     Flowable<List<PostModel>> getPostModelLive(@Query("name") String resourseName, @Query("num") int count);
 
+    @GET("/api/get")
+    LiveData<List<PostModel>> getPostModelLiveData(@Query("name") String resourseName, @Query("num") int count);
 
 }

@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 
 import com.example.umorili2.R;
-import com.example.umorili2.ui.fragments.FragmentClassic;
 import com.example.umorili2.ui.fragments.RecyclerFragment;
 
 public class MainActivity extends AppCompatActivity {
