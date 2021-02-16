@@ -21,9 +21,9 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private List<PostModel> posts;
+    //private List<PostModel> posts;
 
-    private List<RecordingModel> recordingModelList;
+    private List<RecordingModel> posts;
 
 //    public PostAdapter(List<PostModel> posts) {
 //        this.posts = posts;
@@ -42,8 +42,8 @@ public class PostAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     // выполняет привязку объекта ViewHolder к объекту  по определенной позиции
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PostModel postModel = posts.get(position);
-        RecordingModel recordingModel=recordingModelList.get(position);
+        //PostModel postModel = posts.get(position);
+        RecordingModel recordingModel=posts.get(position);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.postModel.setText(Html.fromHtml(recordingModel.getElementPureHtml(), Html.FROM_HTML_MODE_LEGACY));
             holder.site.setText(Html.fromHtml(recordingModel.getSite(),Html.FROM_HTML_MODE_LEGACY));
@@ -68,26 +68,16 @@ public class PostAdapter extends RecyclerView.Adapter<ViewHolder> {
         return posts.size();
     }
 
-    public void setPosts(List<PostModel> posts){
-
-        this.posts = posts;
-        recordingModelList=Functionss.ConvertPostToRecordingList(posts);
-//        List<RecordingModel> recordingModel= Functionss.ConvertPostToRecordingList(posts);
-//        Functionss.PrintRecordingList(recordingModel);
+    public void setPosts(List<RecordingModel> recordings){
+        posts=recordings;
         notifyDataSetChanged();
     }
 
+    public void updatePost(RecordingModel recordingModel){
 
-
-    public void updatePost(PostModel postModel){
-
-        Log.e("updatePost",postModel.toString());
-        //posts.set(posts.indexOf(postModel), postModel);
-        //notifyItemChanged(posts.indexOf(postModel));
-    }
-
-    public List<PostModel> getPosts(){
-        return posts;
+        Log.e("updatePost",recordingModel.toString());
+        posts.set(posts.indexOf(recordingModel), recordingModel);
+        notifyItemChanged(posts.indexOf(recordingModel));
     }
 
 }

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.umorili2.R;
 import com.example.umorili2.model.PostModel;
 import com.example.umorili2.ui.recycler_view_provision.PostAdapter;
+import com.example.umorili2.utils.Functionss;
 import com.example.umorili2.viewmodel.RecyclerFragmentViewModel;
 import com.example.umorili2.viewmodel.ViewModelFectory;
 
@@ -60,20 +61,8 @@ public class RecyclerFragment extends Fragment {
         View view =inflater.inflate(R.layout.main_fragment, container, false);
         recyclerView = view.findViewById(R.id.posts_recycle_view);
 
-        initRecyclerView();
-        viewModelFectory = new ViewModelFectory();
-
-        // подписываемся на ViewModel
-        RecyclerFragmentViewModel model = new ViewModelProvider(getActivity(),viewModelFectory).get(RecyclerFragmentViewModel.class);
-        //getActivity()).get(RecyclerFragmentViewModel.class);
-
-        // забираем через Observable
-         model.gatList().observe(this, postModelList -> adapter.setPosts(postModelList));
-
-         model.getRecordingModel();
-
-        // забираем через LiveData
-         //model.makeQuery().observe(this, postModelList -> adapter.setPosts(postModelList));
+        InitRecyclerView();
+        InitGetData();
 
         return view;
     }
@@ -82,17 +71,35 @@ public class RecyclerFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //recyclerFragmentViewModel = new ViewModelProvider(this).get(RecyclerFragmentViewModel.class);
-
         // TODO: Use the ViewModel
 
     }
 
 
-    private void initRecyclerView() {
-
+    private void InitRecyclerView() {
         adapter = new PostAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
     }
 
+    public void InitGetData(){
+        viewModelFectory = new ViewModelFectory();
+
+        // подписываемся на ViewModel
+        RecyclerFragmentViewModel model = new ViewModelProvider(getActivity(),viewModelFectory).get(RecyclerFragmentViewModel.class);
+        //getActivity()).get(RecyclerFragmentViewModel.class);
+
+        // забираем через LiveData
+        try {
+            model.getRecordingModel().observe(this, postModelList -> {
+                adapter.setPosts(postModelList);});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        // забираем через LiveData
+        //model.makeQuery().observe(this, postModelList -> adapter.setPosts(postModelList));
+
+    }
 }

@@ -62,7 +62,7 @@ public class FragmentClassic  extends Fragment {
                 @Override
                 public void onResponse(Call<List<PostModel>> call, Response<List<PostModel>> response) {
 
-                    adapter.setPosts(response.body());
+                    //adapter.setPosts(response.body());
                 }
 
                 @Override

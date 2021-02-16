@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -81,7 +82,7 @@ private AppTakeObservable appTakeObservable;
     }
 
 
-    public Observable<List<RecordingModel>> getListRecordingModel() {
+    public Observable<List<RecordingModel>> getListRecordingModelObs() {
         return App.getRequestApi()
                 .getPostModel(Constants.RESOURSENAME, Constants.COINT)
                 .subscribeOn(Schedulers.io())
@@ -96,5 +97,19 @@ private AppTakeObservable appTakeObservable;
                 );
     }
 
+    public Flowable<List<RecordingModel>> getListRecordingModel() {
+        return App.getRequestApi()
+                .getPostModelLive(Constants.RESOURSENAME, Constants.COINT)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<List<PostModel>, List<RecordingModel>>() {
+                         @Override
+                         public List<RecordingModel> apply(@NotNull List<PostModel> postModels) throws Exception {
+                             List<RecordingModel> recordingModel = Functionss.ConvertPostToRecordingList(postModels);
+                             return recordingModel;
+                         }
+                     }
+                );
+    }
 
 }

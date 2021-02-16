@@ -11,10 +11,13 @@ import com.example.umorili2.R;
 public class ViewHolder extends RecyclerView.ViewHolder {
     TextView postModel;
     TextView site;
+    TextView desc;
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
         postModel = (TextView) itemView.findViewById(R.id.postitem_post);
         site = (TextView) itemView.findViewById(R.id.postitem_site);
+        desc = (TextView) itemView.findViewById(R.id.postitem_desc);
+
     }
 }

@@ -25,4 +25,15 @@
         android:gravity="end"
         android:textAlignment="textEnd" />
 
+    <TextView
+        android:id="@+id/postitem_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/postitem_post"
+        android:text="Цитатник Рунета"
+        android:layout_alignParentLeft ="true"
+        android:layout_alignParentStart="true"
+        android:gravity="end"
+        />
+
 </RelativeLayout>

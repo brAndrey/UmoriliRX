@@ -7,6 +7,7 @@ import com.example.umorili2.model.RecordingModel;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 public interface RemoteRepozitories {
@@ -19,6 +20,7 @@ public interface RemoteRepozitories {
 
     public LiveData<List<PostModel>> makeReactiveQuery();
 
-    public Observable<List<RecordingModel>> getListRecordingModel();
+    public Flowable<List<RecordingModel>> getListRecordingModel();
 
+    public Observable<List<RecordingModel>> getListRecordingModelObs();
 }
