@@ -15,6 +15,8 @@ public class MainAvtivityViewModel extends ViewModel {
     public void ClearBase() {
         managerRepositoryImpl.ClearBase();
     }
+
+
     // TODO: Implement the ViewModel
 
 }

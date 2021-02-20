@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
@@ -106,8 +108,21 @@ public class ManagerRepositoryImpl implements ManagerRepository{
     }
 
     private void EnumerationRecordingModelList(List<RecordingModel> modelList) {
-        for (RecordingModel rm : modelList) {
+        try {
+            Flowable.fromIterable(modelList)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(recordingModel -> {
+                        Log.e(this.getClass().getSimpleName()," "+ new Throwable().getStackTrace()[0].getMethodName() +"  "+ Thread.currentThread().getName()+" "+System.currentTimeMillis());
+                        getAndSetLocalRepozitories(recordingModel);}
+                    );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void getAndSetLocalRepozitories(RecordingModel rm) {
+        Log.e(this.getClass().getSimpleName()," "+ new Throwable().getStackTrace()[0].getMethodName() +"  "+ Thread.currentThread().getName()+" "+System.currentTimeMillis());
+        try {
             localRepository.getSingleByElementPureHtml(rm.getElementPureHtml())
                     .subscribeOn(Schedulers.io())
                     .filter(new Predicate<RecordingModel>() {
@@ -129,10 +144,10 @@ public class ManagerRepositoryImpl implements ManagerRepository{
                                    @Override
                                    public void onError(@NotNull Throwable e) {
                                        rm.setSite(Functionss.TimeFormat());
-                                       //Log.e("contains ",rm.getElementPureHtml()+" "+rm.getElementPureHtml().contains("цитат,"));
-                                       if(!rm.getElementPureHtml().contains("цитат,")) {
+                                      // Log.e("пишем ", rm.getElementPureHtml());
+                                       if (!rm.getElementPureHtml().contains("цитат,")) {
                                            localRepository.insertRecordingModel(rm);
-                                       }else Log.e("contains ",rm.getElementPureHtml());
+                                       } else Log.e("contains ", rm.getElementPureHtml());
                                    }
 
                                    @Override
@@ -141,25 +156,13 @@ public class ManagerRepositoryImpl implements ManagerRepository{
                                    }
                                }
                     );
-            //database update
-            //localRepository.getMaybeByElementPureHtml(rm.getElementPureHtml());
 
-
-        }
-    }
-
-    public void getLocalRepozitories(){
-        try {
-            localRepository.getCoupons()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(recordingModelList -> Functionss.PrintRecordingList(recordingModelList));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setOne(){
+        public void setOne(){
         RecordingModel rm = new RecordingModel();
         rm.setSite("one");
         rm.setDesc("one");

@@ -41,8 +41,6 @@ public class RecyclerFragment extends Fragment {
     private PostAdapter adapter;
     List<PostModel> posts;
 
-
-
     public static RecyclerFragment newInstance() {
         return new RecyclerFragment();
     }
@@ -51,7 +49,6 @@ public class RecyclerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @Nullable
     @Override
@@ -72,9 +69,7 @@ public class RecyclerFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         //recyclerFragmentViewModel = new ViewModelProvider(this).get(RecyclerFragmentViewModel.class);
         // TODO: Use the ViewModel
-
     }
-
 
     private void InitRecyclerView() {
         adapter = new PostAdapter();
